@@ -1,4 +1,75 @@
-version: '3.8'
+# version: '3.8'
+
+# services:
+#   # MongoDB Database
+#   mongodb:
+#     image: mongo:8
+#     container_name: securescout-mongodb
+#     restart: unless-stopped
+#     ports:
+#       - "27017:27017"
+#     environment:
+#       MONGO_INITDB_ROOT_USERNAME: admin
+#       MONGO_INITDB_ROOT_PASSWORD: securepass123
+#       MONGO_INITDB_DATABASE: securescout
+#     volumes:
+#       - mongodb_data:/data/db
+#       - ./docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+#     networks:
+#       - securescout-network
+
+#   # Redis Cache
+#   redis:
+#     image: redis:7-alpine
+#     container_name: securescout-redis
+#     restart: unless-stopped
+#     ports:
+#       - "6379:6379"
+#     command: redis-server --appendonly yes
+#     volumes:
+#       - redis_data:/data
+#     networks:
+#       - securescout-network
+
+#   # ChromaDB Vector Database
+#   chromadb:
+#     image: chromadb/chroma:latest
+#     container_name: securescout-chromadb
+#     restart: unless-stopped
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       IS_PERSISTENT: "TRUE"
+#       ANONYMIZED_TELEMETRY: "FALSE"
+#     volumes:
+#       - chromadb_data:/chroma/chroma
+#     networks:
+#       - securescout-network
+
+#   # OWASP ZAP (Optional - for API access)
+#   zap:
+#     image: owasp/zap2docker-stable
+#     container_name: securescout-zap
+#     restart: unless-stopped
+#     ports:
+#       - "8080:8080"
+#     command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=securescout-zap-key
+#     networks:
+#       - securescout-network
+
+# volumes:
+#   mongodb_data:
+#     driver: local
+#   redis_data:
+#     driver: local
+#   chromadb_data:
+#     driver: local
+
+# networks:
+#   securescout-network:
+#     driver: bridge
+
+
 
 services:
   # MongoDB Database
@@ -48,7 +119,8 @@ services:
 
   # OWASP ZAP (Optional - for API access)
   zap:
-    image: owasp/zap2docker-stable
+    # replaced deprecated owasp/zap2docker-stable -> use GHCR upstream image
+    image: ghcr.io/zaproxy/zaproxy:stable
     container_name: securescout-zap
     restart: unless-stopped
     ports:
